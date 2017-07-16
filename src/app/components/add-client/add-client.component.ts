@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Router } from '@angular/router';
+import { ClientService } from '../../services/client.service';
 import { Client } from '../../models/Client';
 
 @Component({
@@ -14,11 +17,31 @@ export class AddClientComponent implements OnInit {
   	phone: '',
   	balance:0
   }
-  disableBalanceonAdd:boolean = true;
+  disableBalanceOnAdd:boolean = false;
   
-  constructor() { }
+  // All services/imports must be added as dependancy like so
+  constructor(
+    public flashMessagesService:FlashMessagesService,
+    public router:Router,
+    public clientService:ClientService
+  ) { }
 
   ngOnInit() {
+  }
+
+  onSubmit({value, valid}:{value:Client, valid:boolean}) {
+    if (this.disableBalanceOnAdd) {
+      value.balance = 0;
+    }
+    if (!valid) {
+      this.flashMessagesService.show('Please fill in all fields', {cssClass:'alert-danger', timeout: 4000});
+      this.router.navigate(['add-client']);
+    } else {
+      // Add a new client
+      this.clientService.newClient(value);
+      this.flashMessagesService.show('New client added', {cssClass:'alert-success', timeout: 4000});
+      this.router.navigate(['/']);      
+    }
   }
 
 }
