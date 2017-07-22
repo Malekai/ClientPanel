@@ -16,6 +16,7 @@ export class ClientService {
   	public af:AngularFireDatabase,
     public authService:AuthService
   ) { 
+    // Grab the current user for DB References
     this.authService.getAuth().subscribe(auth => {
       this.currentUser = auth.uid;
     });

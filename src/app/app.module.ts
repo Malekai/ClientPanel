@@ -17,7 +17,6 @@ import { EditClientComponent } from './components/edit-client/edit-client.compon
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 // Service Imports
 import { ClientService } from './services/client.service';
@@ -52,7 +51,6 @@ export const firebaseConfig = {
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
-    SettingsComponent,
     PageNotFoundComponent
   ],
   imports: [
