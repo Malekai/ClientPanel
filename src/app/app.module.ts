@@ -15,20 +15,23 @@ import { ClientDetailsComponent } from './components/client-details/client-detai
 import { AddClientComponent } from './components/add-client/add-client.component';
 import { EditClientComponent } from './components/edit-client/edit-client.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 // Service Imports
 import { ClientService } from './services/client.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+import { SettingsService } from './services/settings.service';
 
 const appRoutes: Routes = [
-  {path:'', component:DashboardComponent},
+  {path:'', component:DashboardComponent, canActivate:[AuthGuard]},
   {path:'register', component:RegisterComponent},
   {path:'login', component:LoginComponent},
-  {path: 'add-client', component:AddClientComponent},
-  {path: 'client/:id', component:ClientDetailsComponent}
+  {path: 'add-client', component:AddClientComponent, canActivate:[AuthGuard]},
+  {path: 'client/:id', component:ClientDetailsComponent, canActivate:[AuthGuard]},
+  {path: 'edit-client/:id', component:EditClientComponent, canActivate:[AuthGuard]}
 ];
 
 export const firebaseConfig = {
@@ -48,7 +51,6 @@ export const firebaseConfig = {
     AddClientComponent,
     EditClientComponent,
     NavbarComponent,
-    SidebarComponent,
     LoginComponent,
     RegisterComponent,
     SettingsComponent,
@@ -64,7 +66,10 @@ export const firebaseConfig = {
   providers: [
     AngularFireAuth,
     AngularFireDatabase,
-    ClientService
+    ClientService,
+    AuthService,
+    AuthGuard,
+    SettingsService
   ],
   bootstrap: [AppComponent]
 })

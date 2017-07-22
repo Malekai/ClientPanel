@@ -30,4 +30,12 @@ export class ClientService {
     return this.client;
   }
 
+  updateClient(id:string, client:Client) {
+    return this.clients.update(id, client);
+  }
+
+  deleteClient(id:string) {
+    this.clients.remove(id);
+  }
+
 }
