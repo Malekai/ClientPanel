@@ -2,22 +2,28 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { Client } from '../models/Client';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class ClientService {
   // Initialize firebase observables
-  clients: FirebaseListObservable<any[]>
-  client: FirebaseObjectObservable<any>
+  clients: FirebaseListObservable<any[]>;
+  client: FirebaseObjectObservable<any>;
+  currentUser: string;
 
   constructor(
   	// Bind your firebase db to constructor
-  	public af:AngularFireDatabase
+  	public af:AngularFireDatabase,
+    public authService:AuthService
   ) { 
-  	// Get your clients from firebase and create observable of them
-  	this.clients = this.af.list('/clients') as FirebaseListObservable<Client[]>;
+    this.authService.getAuth().subscribe(auth => {
+      this.currentUser = auth.uid;
+    });
   }
 
   getClients() {
+    // Get your clients from firebase and create observable of them
+    this.clients = this.af.list(`users/${this.currentUser}/clients`) as FirebaseListObservable<Client[]>;    
   	return this.clients;
   }
 
@@ -26,7 +32,7 @@ export class ClientService {
   }
 
   getClient(id:string) {
-    this.client = this.af.object('/clients/' + id) as FirebaseObjectObservable<Client>
+    this.client = this.af.object(`users/${this.currentUser}/clients/${id}`) as FirebaseObjectObservable<Client>
     return this.client;
   }
 

@@ -17,9 +17,9 @@
 <table *ngIf="clients?.length > 0;else noClients" class="table table-striped">
 	<thead class="thead-inverse">
 		<tr>
-			<th>ID</th>
 			<th>Name</th>
 			<th>Email</th>
+			<th>Phone</th>			
 			<th>Balance</th>
 			<th></th>
 		</tr>
@@ -27,9 +27,9 @@
 	<tbody>
 		<tr *ngFor="let client of clients">
 		<!-- Firebase lets us access keys in a special way -->
-			<td>{{client.$key}}</td>
 			<td>{{client.firstName}} {{client.lastName}}</td>
 			<td>{{client.email}}</td>
+			<td>{{client.phone}}</td>
 			<td>{{client.balance | currency:"USD":true}}</td>
 			<td><a [routerLink]="['/client/'+client.$key]" href="" class="btn btn-secondary btn-sm"><i class="fa fa-arrow-circle-o-right"></i> Details</a></td>
 		</tr>
